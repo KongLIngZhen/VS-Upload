@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>common</title>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <!-- dependencies vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+</head>
+<body style="padding: 0;margin: 0;">
+<div id="app" style="padding: 10px">
+  <upload
+    :text="text"
+    :btn-style="btnStyle"
+    :action="upload_url"
+    :on-click="handleUploadClick"
+    :on-change="handleUploadChange"
+    :on-queue-error="handleQueueError"
+    :on-before="handleUploadBefore"
+    :on-progress="handleUploadProgress"
+    :on-success="handleUploadSuccess"
+    :on-error="handleUploadError"
+    :on-remove="handleUploadRemove"
+    :on-preview="handleUploadPreview"
+    :on-cancel="handleUploadCancel"
+    :on-cancel-all="handleUploadCancelAll"
+    :auto-upload="true"
+    :name="file_post_name"
+    :data="post_params"
+    :accept="file_types"
+    :size="file_size_limit"
+  ></upload>
+  <div id="abc" style="width: 200px;height: 200px;background-color: #B3B3B3;text-align: center;line-height: 200px">文件拖拽到这里！</div>
+</div>
+<!-- built files will be auto injected -->
+<script>
+  var options = {
+    text: '上传',
+    // btnStyle: {
+    //   backgroundColor: '#000000',
+    //   height: '30px',
+    //   width: '95px',
+    //   color: 'red'
+    // },
+    // upload_url : 'https://www.easy-mock.com/mock/5a59a15cd65c5d77fcb469d1/example/upload',
+    upload_url : 'http://localhost:3000/test/upload',
+    file_post_name : 'file',
+    post_params: {
+      a: 1,
+      b: 2
+    },
+    file_types: '*',
+    // file_size_limit: '10000',
+    file_dialog_start_handler : function () {
+      console.log('file_dialog_start_handler')
+    },
+    file_dialog_complete_handler : function (numFilesSelected, numFilesQueued) {
+      console.log('file_dialog_complete_handler')
+      console.log(numFilesSelected)
+      console.log(numFilesQueued)
+    },
+    file_queued_handler : function (file) {
+      console.log('file_queued_handler')
+      console.log(file)
+    },
+    file_queue_error_handler : function (file, errorCode, message) {
+      console.log('file_queue_error_handler')
+      console.log(file)
+      console.log(errorCode)
+      console.log(message)
+    },
+    upload_start_handler : function (file) {
+      console.log('upload_start_handler')
+      console.log(file)
+      return {
+        result: true
+      }
+    },
+    upload_progress_handler : function (file, bytesLoaded, bytesTotal) {
+      console.log('upload_progress_handler')
+      console.log(file)
+      console.log(bytesLoaded)
+      console.log(bytesTotal)
+    },
+    upload_error_handler : function (file, errorCode, message) {
+      console.log('upload_error_handler')
+      console.log(file)
+      console.log(errorCode)
+      console.log(message)
+      return 'error'
+    },
+    upload_success_handler : function (file, serverData, code) {
+      console.log('upload_success_handler')
+      console.log(file)
+      console.log(serverData)
+      console.log(code)
+    },
+    upload_complete_handler : function (file) {
+      console.log('upload_complete_handler')
+    },
+    button_placeholder_id : 'app',
+    button_text : 'Upload',
+    flash_url: './swfupload.swf',
+    debug: true,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    handleCancel : function (file) {
+      console.log('handleCancel')
+      console.log(file)
+    },
+    drop: true,
+    drop_id: 'abc',
+    list_color: '#167af8'
+  }
+  Upload.defaults.swf_mode = false
+  new Upload(options)
+</script>
+</body>
+</html>
